@@ -39,7 +39,6 @@ def main():
         company_name, company_rating = get_company_info(company_url)
         print(f'Company Name: {company_name}')
         print(f'Company Rating: {company_rating}')
-        print()
 
 if __name__ == "__main__":
     main()
