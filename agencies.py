@@ -21,20 +21,20 @@ def agencies_info(agency_url):
     html = requests.get(agency_url)
     soup = BeautifulSoup(html.text, "html.parser")
     agency_names = soup.find("span", attrs={"class" : "last-word-wrapper"})
+    name = agency_names = agency_names.get_text()
+    
+    rating = soup.find("strong", attrs = { "class": "prf-rtng__rtng-dsc"})
+    agency_rating = rating.get_text()
 
-    for agency in agency_names:
-        print(agency.text)
+    reviews = soup.find("div", attrs = {"class": "rvw__top-text"})
+    agency_reviews = reviews.get_text()
+
+    return [name, agency_rating, agency_reviews]
 
 
-# print(company_url_list)
-# html2 = requests.get(company_url_list[0])
-# soup2 = BeautifulSoup(html2.text, 'html.parser')
-# reviews_div = soup2.findAll('div', attrs ={"class" : "rvw_top-text"})
-# # reviews = reviews_div.find_all('p')
 
-# print(reviews_div)
 
-agencies_info(company_url_list[0])
+print(agencies_info(company_url_list[0]))
 
 
 
