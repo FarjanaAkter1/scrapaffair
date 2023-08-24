@@ -7,12 +7,11 @@ soup = BeautifulSoup(html.text, 'html.parser')
 
 companies = soup.findAll('a', attrs = {"data-uapi-link" : "company_name_cta"})
 
-company_list = []
+# company_list = []
 company_url_list = []
 
-
 for company in companies: 
-    company_list.append(company.text.strip())
+    # company_list.append(company.text.strip())
     company_url_list.append(company.get('href'))
 
 
@@ -34,7 +33,19 @@ def agencies_info(agency_url):
 
 
 
-print(agencies_info(company_url_list[0]))
+# print(agencies_info(company_url_list[0]))
+
+with open("agency_data.csv", "w" ) as csv_file:
+    write = csv.writer(csv_file)
+    write.writerow(['Travel Agencies', 'Ratings', 'Reviews'])
+
+    for url in company_url_list:
+        info = agencies_info(url)
+
+        for name, agency_rating, agency_reviews in info:
+            write.writerow([name, agency_rating, agency_reviews])
+
+
 
 
 
