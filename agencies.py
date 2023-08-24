@@ -10,7 +10,6 @@ company_list = []
 company_url_list = []
 
 
-
 for company in companies: 
     company_list.append(company.text.strip())
     company_url_list.append(company.get('href'))
@@ -18,6 +17,11 @@ for company in companies:
 # for link in companies_links: 
 #     print(link.text)
 # print(company_url_list)
+
+print(company_url_list)
+html = requests.get(company_url_list[0])
+soup2 = BeautifulSoup(html.text, 'html.parser')
+reviews = soup.findAll('div', attrs ={})
 
 
 
