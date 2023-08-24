@@ -21,20 +21,24 @@ def extract_reviews(company_title):
     company_response = requests.get(company_url, headers=HEADERS)
     company_soup = BeautifulSoup(company_response.content, 'html.parser')
     
+    # Find the company name
     company_name_element = company_soup.find('span', class_='last-word-wrapper')
     if company_name_element:
         company_name = company_name_element.get_text(strip=True)
     else:
         company_name = "Company name not found"
     
-    reviews = company_soup.find_all('div', class_='rvw__top-text')
+    reviews = company_soup.find_all('div', class_='rvw__hdr-stat')
     
     results = []  # List to store results for each company
     
+    # Find reviews and their rating values
     for review in reviews:
-        review_text = review.get_text(strip=True)
+        review_text = review.find_next('div', class_='rvw__top-text').get_text(strip=True)
         rating_value_element = review.find('meta', itemprop='ratingValue')
+        print("Rating Value Element:", rating_value_element)
         if rating_value_element and 'content' in rating_value_element.attrs:
+            print("Content Attribute:", rating_value_element['content'])
             rating_value = int(rating_value_element['content'])
         else:
             rating_value = None
@@ -52,5 +56,5 @@ with open('reviews.csv', 'w', newline='', encoding='utf-8') as csv_file:
         company_title = element.get_text(strip=True)
         review_data = extract_reviews(company_title)
         
-        for company_name, review_text, rating_value in review_data:
+        for company_name, rating_value, review_text in review_data:
             csv_writer.writerow([company_name, rating_value, review_text])
