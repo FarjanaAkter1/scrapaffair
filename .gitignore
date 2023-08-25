@@ -1,0 +1,4 @@
+reviews.csv
+/reviews.csv
+*.csv
+__pycache__
